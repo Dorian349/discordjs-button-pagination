@@ -1,9 +1,4 @@
-const {
-  MessageActionRow,
-  Message,
-  MessageEmbed,
-  MessageButton,
-} = require("discord.js");
+const { ActionRowBuilder, MessageEmbed, MessageButton } = require("discord.js");
 
 /**
  * Creates a pagination embed
@@ -21,15 +16,17 @@ const paginationEmbed = async (
 ) => {
   if (!pages) throw new Error("Pages are not given.");
   if (!buttonList) throw new Error("Buttons are not given.");
+
   if (buttonList[0].style === "LINK" || buttonList[1].style === "LINK")
     throw new Error(
       "Link buttons are not supported with discordjs-button-pagination"
     );
+
   if (buttonList.length !== 2) throw new Error("Need two buttons.");
 
   let page = 0;
 
-  const row = new MessageActionRow().addComponents(buttonList);
+  const row = new ActionRowBuilder().addComponents(buttonList);
 
   //has the interaction already been deferred? If not, defer the reply.
   if (interaction.deferred == false) {
@@ -43,8 +40,8 @@ const paginationEmbed = async (
   });
 
   const filter = (i) =>
-    i.customId === buttonList[0].customId ||
-    i.customId === buttonList[1].customId;
+  i.custom_id === buttonList[1].custom_id ||
+  i.custom_id === buttonList[0].custom_id;
 
   const collector = await curPage.createMessageComponentCollector({
     filter,
@@ -52,11 +49,12 @@ const paginationEmbed = async (
   });
 
   collector.on("collect", async (i) => {
+
     switch (i.customId) {
-      case buttonList[0].customId:
+      case buttonList[0].data.custom_id:
         page = page > 0 ? --page : pages.length - 1;
         break;
-      case buttonList[1].customId:
+      case buttonList[1].data.custom_id:
         page = page + 1 < pages.length ? ++page : 0;
         break;
       default:
@@ -72,7 +70,7 @@ const paginationEmbed = async (
 
   collector.on("end", (_, reason) => {
     if (reason !== "messageDelete") {
-      const disabledRow = new MessageActionRow().addComponents(
+      const disabledRow = new ActionRowBuilder().addComponents(
         buttonList[0].setDisabled(true),
         buttonList[1].setDisabled(true)
       );
