@@ -1,14 +1,5 @@
-[![discordjs-pagination](https://user-images.githubusercontent.com/57099786/126899921-eb1e0728-ab64-4d28-a59c-835662957a8a.png)](https://npmjs.com/package/discordjs-button-pagination)
-
-<div align="center">
-  <p>
-    <a href="https://npmjs.com/package/discordjs-button-pagination
-/"><img src="https://nodei.co/npm/discordjs-button-pagination.png?downloads=true&stars=true" alt="NPM info" /></a>
-  </p>
-</div>
-
 # discordjs-button-pagination
-A simple package to paginate discord embeds via discord buttons introduced in [discord.js v13](https://github.com/discordjs/discord.js/tree/master).
+Updated version of this package made to work with [discord.js v14](https://github.com/discordjs/discord.js/tree/master).
 
 # Versions
 
